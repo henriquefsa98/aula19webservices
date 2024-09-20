@@ -194,4 +194,22 @@ export class ToDoItemDAO {
             throw error
         }
     }
+
+
+    async testID(id: number): Promise<boolean> {
+
+        try {
+            const response = await this.getItemCollection().findOne<ToDoItemDTO>({id: id})
+           
+            if (response) {
+                return response != null
+            }
+            throw new Error("Failed to find element with the given id")
+        } catch (error) {
+            console.error("Failed to find element by id")
+            throw error
+        }
+
+
+    }
 }
