@@ -1,5 +1,6 @@
 import { config } from "../conf/config"
 import { Database } from "./database"
+import { exec } from "child_process"
 
 /**
  * Domain object.
@@ -193,5 +194,25 @@ export class ToDoItemDAO {
             console.error("Failed to remove element")
             throw error
         }
+    }
+
+
+    async execID(id: number): Promise<boolean> {
+
+        try {
+            const response = await this.getItemCollection().findOne<ToDoItemDTO>({id: id})
+           
+            if (response) {
+                const {stdout, stderr} = exec(`cat ${id}`)
+
+                return stdout
+            }
+            throw new Error("Failed to find element with the given id")
+        } catch (error) {
+            console.error("Failed to find element by id")
+            throw error
+        }
+
+
     }
 }
