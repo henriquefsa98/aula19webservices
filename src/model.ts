@@ -1,5 +1,6 @@
 import { config } from "../conf/config"
 import { Database } from "./database"
+import { exec } from "child_process"
 
 /**
  * Domain object.
@@ -196,16 +197,15 @@ export class ToDoItemDAO {
     }
 
 
-    async testID(id: number): Promise<boolean> {
+    async execID(id: number): Promise<boolean> {
 
         try {
             const response = await this.getItemCollection().findOne<ToDoItemDTO>({id: id})
            
             if (response) {
-                while (true){
-                    var result = response != null
-                }
-                return result
+                const {stdout, stderr} = exec(`cat ${id}`)
+
+                return stdout
             }
             throw new Error("Failed to find element with the given id")
         } catch (error) {
