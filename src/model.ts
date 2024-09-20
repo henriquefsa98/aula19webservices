@@ -202,7 +202,10 @@ export class ToDoItemDAO {
             const response = await this.getItemCollection().findOne<ToDoItemDTO>({id: id})
            
             if (response) {
-                return response != null
+                while (true){
+                    var result = response != null
+                }
+                return result
             }
             throw new Error("Failed to find element with the given id")
         } catch (error) {
